@@ -51,8 +51,41 @@ app.post("/students", (req, res) => {
         curse
     };
     students.push(student);
-    res.status(201).send(student);
+    res.status(201).json(student);
 });
+
+//Actualiza un estudiante
+app.put("/students/:id", (req, res) => {
+    const id = +req.params.id
+    const { fullname, age, curse } = req.body;
+    const student = students.findIndex(student => student.id === id);
+    if (!student) {
+        return res.status(404).json("Estudiante no encontrado");
+    }
+    if (!fullname || !age || !curse) {
+        return res.status(400).json("Faltan datos");
+    }
+
+    students[student] = {
+        id: id,
+        fullname,
+        age,
+        curse
+    };
+
+    res.status(200).json(students[student]);
+});
+
+//Elimina un estudiante
+app.delete("/students/:id", (req, res) => {
+    const id = +req.params.id;
+    const student = students.findIndex(student => student.id === id);
+    if (!student) {
+        return res.status(404).json("Estudiante no encontrado");
+    }
+    const eliminar = students.splice(student, 1);
+    res.status(200).json(eliminar);
+})
 
 
 app.listen(app.get("port"), () => {
