@@ -16,6 +16,14 @@ let id = 1;
 
 
 //Validaciones de datos
+
+//validacion de Nombre completo
+const validateFullName = (fullName) => {
+    const parts = fullName.trim().split(' ');
+    return parts.length >= 2;
+  };
+
+//validacion de datos
 const validateStudent = (req, res, next) => {
     const { fullname, age, curse } = req.body;
   
@@ -57,17 +65,8 @@ app.get("/students/:id", (req, res) => {
 });
 
 //Crea un estudiante
-app.post("/students", (req, res) => {
+app.post("/students", validateStudent, (req, res) => {
     const {fullname, age, curse} = req.body;
-
-    if (!fullname || !age || !curse) {
-        return res.status(400).json("Faltan datos");
-    }
-
-    const exitestudent = students.find(student => student.fullname === fullname);
-    if (exitestudent) {
-        return res.status(400).json("El estudiante ya existe");
-    }
 
     const student = {
         id: id++,
@@ -84,11 +83,21 @@ app.put("/students/:id", (req, res) => {
     const id = +req.params.id
     const { fullname, age, curse } = req.body;
     const student = students.findIndex(student => student.id === id);
-    if (!student) {
+
+    if (student === -1) {
         return res.status(404).json("Estudiante no encontrado");
     }
+
     if (!fullname || !age || !curse) {
         return res.status(400).json("Faltan datos");
+    }
+
+    if (!validateFullName(fullname)) {
+        return res.status(400).json("El nombre completo debe incluir nombre y apellido");
+    }
+
+    if (typeof age !== 'number' || age < 5 || age > 100) {
+        return res.status(400).json("La edad debe estar entre 5 y 100 años");
     }
 
     students[student] = {
