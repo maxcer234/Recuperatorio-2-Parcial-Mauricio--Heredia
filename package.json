@@ -4,7 +4,7 @@
   "main": "index.js",
   "type": "module",
   "scripts": {
-    "ser": "node --wacher ./src/app.js"
+    "ser": "node --watch ./src/app.js"
   },
   "keywords": [],
   "author": "",
