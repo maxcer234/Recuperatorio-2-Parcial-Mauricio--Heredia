@@ -16,8 +16,28 @@ let id = 1;
 
 
 //Validaciones de datos
-
-
+const validateStudent = (req, res, next) => {
+    const { fullname, age, curse } = req.body;
+  
+    if (!fullname || !age || !curse) {
+      return res.status(400).json("Faltan datos");
+    }
+  
+    if (!validateFullName(fullname)) {
+      return res.status(400).json("El nombre completo debe incluir nombre y apellido");
+    }
+  
+    if (typeof age !== 'number' || age < 5 || age > 100) {
+      return res.status(400).json("La edad debe estar entre 5 y 100 años");
+    }
+  
+    const existsStudent = students.find(student => student.fullname === fullname);
+    if (existsStudent) {
+      return res.status(400).json("El estudiante ya existe");
+    }
+  
+    next();
+  };
 
 //CRUD DE ESTUDIANTES
 
