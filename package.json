@@ -2,8 +2,9 @@
   "name": "recuperatorio-2-parcial",
   "version": "1.0.0",
   "main": "index.js",
+  "type": "module",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "ser": "node --wacher ./src/app.js"
   },
   "keywords": [],
   "author": "",
