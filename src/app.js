@@ -14,6 +14,11 @@ const students = []
 
 let id = 1;
 
+
+//Validaciones de datos
+
+
+
 //CRUD DE ESTUDIANTES
 
 //Lista de todos los estudiantes
